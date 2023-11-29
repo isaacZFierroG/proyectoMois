@@ -1,0 +1,1 @@
+import{o,c as a,b as l,a as s,ba as r}from"./index-25a1633d.js";const n={class:"mr-3"},u={__name:"SubtituloComponent",props:{estilosSub:{type:Array}},setup(t){return(e,c)=>(o(),a("article",{class:r(["flex items-center uppercase font-bold text-2xl",t.estilosSub])},[l("h2",n,[s(e.$slots,"subtitulo")]),s(e.$slots,"imagen")],2))}};export{u as default};
