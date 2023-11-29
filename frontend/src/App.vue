@@ -2,7 +2,7 @@
   <NNotificationProvider>
     <main class="main h-screen">
       <header class="header flex justify-between items-start p-3 mb-5 shadow-md">
-        <img :src="imagenLogo" alt="">
+        <img src="./assets/img/Promev.png" class="w-36 -my-7 -ml-3" alt="">
         <Header :links="links"/>
       </header>
       <section class="w-11/12 mx-auto">

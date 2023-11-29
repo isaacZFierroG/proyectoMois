@@ -1,5 +1,5 @@
 <template>
-    <NModal v-model:show="modalModulo" :style="estilosModuloModal">
+    <NModal v-model:show="moduloForm" :style="estilosModuloModal">
         <NCard>
             <header class="flex items-center">
                 <h2 class="uppercase font-bold mr-3">crear modulo</h2>
@@ -29,10 +29,13 @@
                 </section>
             </section>
             <NButton 
-                v-if="datosLlenos"
+                v-if="datosLlenos && editaModulo"
                 class="w-full" 
                 @click="crearModuloC">
                 crear
+            </NButton>
+            <NButton v-else class="w-full">
+
             </NButton>
         </NCard>
     </NModal>
@@ -46,13 +49,32 @@ import useModulos from '../../composables/useModulos';
 
 
 const { 
-    modalModulo,
+    moduloForm,
+    datosModulo,
     estilosModuloModal,
     crearModulo,
     obtenerModulos,
 } = useModulos();
 const notification = useNotification();
 
+//editar sensor
+const { mac:macSensor } = toRefs(datosModulo.value);
+const editaModulo = ref(false);
+
+const agregarDatosModulo = ({ mac, mina, area, sensores }) => {
+    editaModulo.value = true;
+    modulo.value.mac = mac;
+    modulo.value.mina = mina;
+    modulo.value.area = area;
+    modulo.value.sensores = sensores;
+    contadorSensores.value = sensores.length;
+}
+watch(macSensor, newValue => {
+    if(!newValue) return;
+    console.log('asignando los datos correspondientes del modulo')
+    console.log(datosModulo.value);
+    agregarDatosModulo(datosModulo.value);
+})
 
 // crear sensor
 const modulo = ref({

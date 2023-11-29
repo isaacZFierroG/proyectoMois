@@ -4,7 +4,7 @@ export default () => ({
   Modulos: defineAsyncComponent(() =>
     import("../components/modulos/Modulos.vue")
   ),
-  ModalCrear: defineAsyncComponent(() =>
-    import("../components/basicos/ModalCrear.vue")
+  ModuloForm: defineAsyncComponent(() =>
+    import("../components/forms/ModuloForm.vue")
   ),
 });

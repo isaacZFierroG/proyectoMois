@@ -8,8 +8,8 @@ export default () => {
   const modulosStore = useModulosStore();
   const modalesStore = useModalesStore();
   const { modulos } = storeToRefs(modulosStore);
-  const { modalModulo, estilosModuloModal } = storeToRefs(modalesStore);
-  const { Modulos, ModalCrear } = useComponentes();
+  const { moduloForm, datosModulo, estilosModuloModal } = storeToRefs(modalesStore);
+  const { Modulos, ModuloForm } = useComponentes();
 
   const obtenerModulos = async (params = null) => {
     try {
@@ -46,7 +46,7 @@ export default () => {
 
   return {
     Modulos,
-    ModalCrear,
+    ModuloForm,
 
     modulos,
     obtenerModulos,
@@ -55,9 +55,11 @@ export default () => {
     infoModulo,
     obtenerModulo,
 
-    modalModulo,
+    moduloForm,
+    datosModulo,
     estilosModuloModal,
-    mostrarModalModulo: modalesStore.mostrarModalModulo,
-    ocultarModalModulo: modalesStore.ocultarModalModulo,
+    editarModulo: modalesStore.editarModulo,
+    mostrarModuloForm: modalesStore.mostrarModuloForm,
+    ocultarModuloForm: modalesStore.ocultarModuloForm,
   };
 };

@@ -7,13 +7,13 @@
                 </h1>
                 <i class="fa-solid fa-box-open text-gray-100 text-2xl"></i>
             </article>
-            <NButton type="info" @click="mostrarModalModulo">crear</NButton>
+            <NButton type="info" @click="mostrarModuloForm">crear</NButton>
         </header>
         <section class="second-color p-3">
             <Modulos :datos="modulos"/>
         </section>
     </section>
-    <ModalCrear/>
+    <ModuloForm/>
 </template>
 
 <script setup>
@@ -24,10 +24,10 @@ import useModulos from '../composables/useModulos'
 
 const {
     Modulos,
-    ModalCrear,
+    ModuloForm,
     modulos,
     obtenerModulos,
-    mostrarModalModulo
+    mostrarModuloForm,
 } = useModulos();
 
 
