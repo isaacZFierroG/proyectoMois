@@ -1,6 +1,8 @@
 import { defineAsyncComponent } from "vue";
+import { NModal } from "naive-ui";
 
 export default () => ({
+  NModal,
   Modulos: defineAsyncComponent(() =>
     import("../components/modulos/Modulos.vue")
   ),

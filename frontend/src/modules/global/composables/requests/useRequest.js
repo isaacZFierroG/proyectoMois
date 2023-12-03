@@ -21,7 +21,7 @@ export default (servicioModulo) => {
     let response, error;
 
     try {
-      response = await servicio.obtenerElementos(id, params);
+      response = await servicio.obtenerElemento(id, params);
     } catch (err) {
       error = err;
     } finally {

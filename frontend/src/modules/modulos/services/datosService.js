@@ -1,6 +1,6 @@
 import service from "../../global/services/service";
 
-const recurso = "modulos/";
+const recurso = "datos/";
 
 export default {
   obtenerElementos(params = null) {

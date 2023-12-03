@@ -1,6 +1,6 @@
 <template>
     <article class="modulo text-gray-100 rounded-lg shadow-md">
-        <header @click="mostrarDetallesModulo" class="px-3 py-1 hover:bg-white/5 hover:cursor-pointer hover:border-r-4 border-x-teal-600">
+        <header @click="mostrarDetallesModulo(modulo.id)" class="px-3 py-1 hover:bg-white/5 hover:cursor-pointer hover:border-r-4 border-x-teal-600">
             <h3 class="uppercase font-bold text-5xl">{{ modulo.mac }}</h3>
             <article class="flex uppercase">
                 <p>area: {{ modulo.area }}</p>
@@ -18,30 +18,42 @@
                     <i class="fa-solid fa-pen-to-square"></i>
                     <p>editar</p>
                 </article>
-                <article class="px-3 py-2 text-center hover:bg-white/50 hover:cursor-pointer">
+                <article @click="mostrarModalEliminar" class="px-3 py-2 text-center hover:bg-white/50 hover:cursor-pointer">
                     <i class="fa-solid fa-trash"></i>
                     <p>eliminar</p>
                 </article>
             </section>
         </footer>
     </article>
+    <NModal 
+        v-model:show="modalEliminar"
+        :mask-closable="false"
+        preset="dialog"
+        :title="`Eliminar modulo ${modulo.mac}`"
+        content="¿Realmente desea eliminar el modulo?"
+        positive-text="eliminar"
+        negative-text="cancelar"
+        @negative-click="ocultarModalEliminar"/>
 </template>
 
 <script setup>
-import { toRefs } from 'vue'
-import { computed } from 'vue'
+import { ref, computed, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
+import { NModal } from 'naive-ui'
 import useModulos from '../../composables/useModulos';
 
 
 const { editarModulo } = useModulos();
+const router = useRouter();
 
 const props = defineProps({
     modulo: {
         type: Object,
         default: () => ({
-            mac: 'mac-123',
-            mina: 'hermosillo',
-            area: 'a',
+            id: null,
+            mac: '',
+            mina: '',
+            area: '',
             sensores: []
         })
     }
@@ -50,9 +62,15 @@ const { modulo } = toRefs(props);
 
 const numeroSensores = computed(() => modulo.value.sensores.length);
 
+// elimiar modulo
+const modalEliminar = ref(false);
+
+const mostrarModalEliminar = () => modalEliminar.value = true;
+const ocultarModalEliminar = () => modalEliminar.value = false;
+
 //logica editar modulo
-const mostrarDetallesModulo = () => {
-    console.log('mostrando los detalles del modulo');
+const mostrarDetallesModulo = (idModulo) => {
+    router.push({ name: 'modulos-info', params: { idModulo } })
 }
 </script>
 

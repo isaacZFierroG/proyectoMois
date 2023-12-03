@@ -10,7 +10,7 @@ const rutas = [
         component: () => import("../views/ListadoView.vue"),
       },
       {
-        path: ":id",
+        path: ":idModulo",
         name: "modulos-info",
         component: () => import("../views/ModuloView.vue"),
       },
