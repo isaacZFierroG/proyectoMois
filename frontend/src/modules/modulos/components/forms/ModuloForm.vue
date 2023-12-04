@@ -1,9 +1,9 @@
 <template>
     <NModal v-model:show="moduloForm" :style="estilosModuloModal">
         <NCard>
-            <header class="flex items-center">
+            <header class="flex items-center text-slate-600">
                 <h2 class="uppercase font-bold mr-3">crear modulo</h2>
-                <i class="fa-solid fa-box-open text-gray-100 text-2xl"></i>
+                <i class="fa-solid fa-box-open text-2xl"></i>
             </header>
             <hr class="my-3">
             <section class="mb-3">
@@ -29,13 +29,15 @@
                 </section>
             </section>
             <NButton 
-                v-if="datosLlenos && editaModulo"
+                v-if="editaModulo"
+                class="w-full" >
+                editar
+            </NButton>
+            <NButton 
+                v-else
                 class="w-full" 
                 @click="crearModuloC">
                 crear
-            </NButton>
-            <NButton v-else class="w-full">
-
             </NButton>
         </NCard>
     </NModal>
@@ -83,26 +85,36 @@ const modulo = ref({
     area: '',
     sensores: []
 })
-const datosLlenos = computed(() => {
+const datosLlenos = () => {
     if(modulo.value.mac && modulo.value.mina && modulo.value.area){
         return true;
     }
 
+    notification.warning({
+        keepAliveOnHover: true,
+        duration: 5000,
+        content: 'faltan datos por llenar',
+        meta: 'verifique que los datos MAC, MINA y AREA, esten llenos completamente'
+    })
     return false;
-})
+}
 const refTimeOut = ref(null);
 const { mac } = toRefs(modulo.value);
 
 const reiniciarValores = () => {
+    refTimeOut.value = null;
+    modulo.value.mac = '';
+    modulo.value.area = '';
+    modulo.value.mina = ''
     modulo.value.sensores = [];
-
-    for(let clave in modulo.value){
-        if(clave !== 'sensores'){
-            modulo.value[clave] = null;
-        }
-    }
 }
+watch(moduloForm, newValue => {
+    if(!newValue) reiniciarValores();
+})
+
 const crearModuloC = async() => {
+    if(!datosLlenos()) return;
+
     try{
         const res = await crearModulo(modulo.value);
         reiniciarValores();
@@ -124,7 +136,7 @@ const crearModuloC = async() => {
 }
 
 watch(mac, newValue => {
-    if(newValue === ''){
+    if(newValue === '' && !editaModulo.value){
         console.log('la mac esta vacia')
         refTimeOut.value = setTimeout(() => {
             console.log('se van a eliminar sensores')
@@ -132,7 +144,7 @@ watch(mac, newValue => {
         }, 3000)
     }
 
-    if(newValue !== ''){
+    if(newValue !== '' && !editaModulo.value){
         clearTimeout(refTimeOut.value);
         editarClaveSensores(newValue);
     }
